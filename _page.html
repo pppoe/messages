@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-V34CNNDP8V"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-V34CNNDP8V');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Haoxiang's Messages</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background-color: #ffffff;
+      color: black;
+      padding: 10px;
+      text-align: center;
+      z-index: 1000;
+      border-bottom: 1px solid #ddd;
+    }
+    header div {
+      display: block;
+      margin: 10px auto;
+    }
+
+    #home-icon {
+      display: block;
+      float: left;
+      margin: 5px;
+      text-decoration: none;
+      color: black;
+    }
+
+    main {
+      margin-top: 60px; /* Adjusted margin to account for fixed header */
+      padding: 20px;
+    }
+
+    .post {
+      background-color: white;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      margin-bottom: 10px;
+      padding: 10px 20px;
+      max-height: 200px;
+      overflow: hidden;
+    }
+    .post img {
+      display: block;
+      margin-top: 5px;
+      max-width: auto;
+      max-height: 100px;
+    }
+    .post .clear {
+      clear: both;
+      display: block;
+    }
+    .post a {
+      text-decoration: none;
+    }
+    .post a:hover {
+      color: #0056b3;
+    }
+    .post a:visited {
+      color: #0056b3;
+    }
+    .post div.comment {
+      text-align: right;
+    }
+    @media screen and (max-width: 600px) {
+      body {
+        max-width: 100%; 
+      }
+      #home-icon {
+        float: none;
+        display: block;
+        text-align: center;
+        margin-bottom: 10px;
+      }
+    }
+    footer {
+      width: 100%;
+      background-color: #ddd;
+      text-align: center;
+      z-index: 1000;
+      padding: 20px 0px;
+      margin-bottom: 20px;
+      left: 0;
+    }
+
+    #next-btn,
+    #prev-btn {
+      background-color: #4CAF50;
+      color: white;
+      padding: 8px 16px;
+      margin: 0 50px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    #page-index {
+      font-size: small;
+    }
+
+    </style>
+  </head>
+  <body>
+
+    <header>
+      <a id="home-icon" href="https://haoxiang.org/">🏠 Home</a>
+    </header>
+
+    <main id="content">
+      <!-- Posts will be dynamically added here using JavaScript -->
+    </main>
+
+    <footer>
+      <a id="prev-btn" href="#" target="_blank"><i class="fas fa-chevron-left"></i></a>
+      <span id="page-index">Page</span>
+      <a id="next-btn" href="#" target="_blank"><i class="fas fa-chevron-right"></i></a>
+    </footer>
+
+    <section> <!-- footer ads -->
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6706191209941700"
+                      crossorigin="anonymous"></script>
+        <!-- ToolsListFooter -->
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-6706191209941700"
+             data-ad-slot="5967976114"
+             data-ad-format="rectangle"
+             data-full-width-responsive="true"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </section>
+
+    <script>
+      // Dummy data for posts
+      const posts = [
+        __CONTENT__
+      ];
+      const content = document.getElementById('content');
+      function createPostElement(post) {
+        const postElement = document.createElement('div');
+        postElement.className = 'post';
+        const textParagraph = document.createElement('p');
+        textParagraph.textContent = post.text;
+        postElement.appendChild(textParagraph);
+        if (post.link) {
+          const linkElement = document.createElement('a');
+          linkElement.setAttribute("class", "link");
+          linkElement.href = post.link;
+          linkElement.textContent = post.link.length > 50 ? post.link.substring(0, 50) + '...' : post.link;
+          postElement.appendChild(linkElement);
+        }
+        if (post.image) {
+          const imageElement = document.createElement('img');
+          imageElement.src = post.image;
+          imageElement.alt = 'Image';
+          postElement.appendChild(imageElement);
+        }
+        if (post.interact) {
+          const linkElementContainer = document.createElement('div');
+          linkElementContainer.setAttribute("class", "comment");
+          const linkElement = document.createElement('a');
+          linkElement.setAttribute("class", "comment");
+          linkElement.href = post.interact;
+          linkElement.textContent = "Comment";
+          linkElementContainer.appendChild(linkElement);
+          postElement.appendChild(linkElementContainer);
+        }
+        const e = document.createElement('div');
+        e.setAttribute("class", "clear");
+        postElement.appendChild(e);
+        return postElement;
+      }
+      function loadPosts() {
+        // Simulate loading more posts
+        posts.forEach((post) => {
+          const postElement = createPostElement(post);
+          content.appendChild(postElement);
+        });
+      }
+      // Load initial posts
+      window.onload = function() {
+        __PAGE__
+        loadPosts();
+        if (page > 1) {
+          url = "/page" + (page - 1) + ".html";
+          if (url == "/page1.html") {
+            url = "/";
+          }
+          document.getElementById('next-btn').href = url;
+        } else {
+          document.getElementById('next-btn').style.display = 'none';
+        }
+        if (page < pageCount) {
+          url = "/page" + (page + 1) + ".html";
+          if (url == "/page1.html") {
+            url = "/";
+          }
+          document.getElementById('prev-btn').href = url;
+        } else {
+          document.getElementById('prev-btn').style.display = 'none';
+        }
+        if (pageCount > 1) {
+          document.getElementById('page-index').innerHTML = page;
+        } else {
+          document.getElementById('page-index').style.display = 'none';
+        }
+      }
+    </script>
+
+  </body>
+</html>
+
