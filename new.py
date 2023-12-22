@@ -17,7 +17,7 @@ if __name__ == '__main__':
     parser.add_argument('--link', default=None, required=False)
     parser.add_argument('--image', default=None, required=False)
     parser.add_argument('--tags', default=None, required=False, help="tag,tag,tag")
-    parser.add_argument('--site_dir', default="./site/")
+    parser.add_argument('--site_dir', default="./docs/")
     args = parser.parse_args()
 
     messages_dir = f'messages/'
