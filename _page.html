@@ -55,7 +55,7 @@
       border-radius: 5px;
       margin-bottom: 10px;
       padding: 10px 20px;
-      max-height: 200px;
+      max-height: 300px;
       overflow: hidden;
     }
     .post img {
@@ -79,6 +79,20 @@
     }
     .post div.comment {
       text-align: right;
+    }
+    .post p {
+      margin: 1em 0em;
+      padding: 0;
+    }
+    .post .date {
+      margin: 0;
+      padding: 0;
+      text-size: small; 
+      color: gray;
+    }
+    .post .link {
+      margin: 0;
+      padding: 0;
     }
     @media screen and (max-width: 600px) {
       body {
@@ -115,6 +129,9 @@
     #page-index {
       font-size: small;
     }
+    .ads {
+      width: 100%;
+    }
 
     </style>
   </head>
@@ -138,7 +155,7 @@
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6706191209941700"
                       crossorigin="anonymous"></script>
         <!-- ToolsListFooter -->
-        <ins class="adsbygoogle"
+        <ins class="adsbygoogle ads"
              style="display:block"
              data-ad-client="ca-pub-6706191209941700"
              data-ad-slot="5967976114"
@@ -158,16 +175,20 @@
       function createPostElement(post) {
         const postElement = document.createElement('div');
         postElement.className = 'post';
+        const dateElem = document.createElement('p');
+        dateElem.setAttribute("class", "date");
+        dateElem.textContent = post.date;
+        postElement.appendChild(dateElem);
         const textParagraph = document.createElement('p');
-        textParagraph.textContent = post.text;
-        postElement.appendChild(textParagraph);
+        textParagraph.textContent = post.text + " ";
         if (post.link) {
           const linkElement = document.createElement('a');
           linkElement.setAttribute("class", "link");
           linkElement.href = post.link;
           linkElement.textContent = post.link.length > 50 ? post.link.substring(0, 50) + '...' : post.link;
-          postElement.appendChild(linkElement);
+          textParagraph.appendChild(linkElement);
         }
+        postElement.appendChild(textParagraph);
         if (post.image) {
           const imageElement = document.createElement('img');
           imageElement.src = post.image;
@@ -180,7 +201,7 @@
           const linkElement = document.createElement('a');
           linkElement.setAttribute("class", "comment");
           linkElement.href = post.interact;
-          linkElement.textContent = "Comment";
+          linkElement.textContent = "Comment @ mas.to";
           linkElement.target = "_blank";
           linkElementContainer.appendChild(linkElement);
           postElement.appendChild(linkElementContainer);
@@ -198,32 +219,30 @@
         });
       }
       // Load initial posts
-      window.onload = function() {
-        __PAGE__
-        loadPosts();
-        if (page > 1) {
-          url = "/page" + (page - 1) + ".html";
-          if (url == "/page1.html") {
-            url = "/";
-          }
-          document.getElementById('next-btn').href = url;
-        } else {
-          document.getElementById('next-btn').style.display = 'none';
+      __PAGE__
+      loadPosts();
+      if (page > 1) {
+        url = "/page" + (page - 1) + ".html";
+        if (url == "/page1.html") {
+          url = "/";
         }
-        if (page < pageCount) {
-          url = "/page" + (page + 1) + ".html";
-          if (url == "/page1.html") {
-            url = "/";
-          }
-          document.getElementById('prev-btn').href = url;
-        } else {
-          document.getElementById('prev-btn').style.display = 'none';
+        document.getElementById('next-btn').href = url;
+      } else {
+        document.getElementById('next-btn').style.display = 'none';
+      }
+      if (page < pageCount) {
+        url = "/page" + (page + 1) + ".html";
+        if (url == "/page1.html") {
+          url = "/";
         }
-        if (pageCount > 1) {
-          document.getElementById('page-index').innerHTML = page;
-        } else {
-          document.getElementById('page-index').style.display = 'none';
-        }
+        document.getElementById('prev-btn').href = url;
+      } else {
+        document.getElementById('prev-btn').style.display = 'none';
+      }
+      if (pageCount > 1) {
+        document.getElementById('page-index').innerHTML = page;
+      } else {
+        document.getElementById('page-index').style.display = 'none';
       }
     </script>
 

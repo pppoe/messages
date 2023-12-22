@@ -17,6 +17,7 @@ if __name__ == '__main__':
     parser.add_argument('--link', default=None, required=False)
     parser.add_argument('--image', default=None, required=False)
     parser.add_argument('--tags', default=None, required=False, help="tag,tag,tag")
+    parser.add_argument('--dry', default=False, required=False, action='store_true', help='rebuild locally without pushing')
     parser.add_argument('--site_dir', default="./docs/")
     args = parser.parse_args()
 
@@ -26,47 +27,48 @@ if __name__ == '__main__':
 
     files2add = []
 
-    uuid = str(int(time.time()))
-    date_str = datetime.now().strftime('%Y-%m-%d')
-    fname = f'{uuid}_{date_str}.json'
-    target_fpath = os.path.join(messages_dir, fname)
+    if not args.dry:
+        uuid = str(int(time.time()))
+        date_str = datetime.now().strftime('%Y-%m-%d')
+        fname = f'{uuid}_{date_str}.json'
+        target_fpath = os.path.join(messages_dir, fname)
 
-    if args.direct:
-        template = json.load(open('__template__.json'))
-        template['text'] = args.text
-        if args.link is not None: template['link'] = args.link
-        if args.image is not None: template['image'] = args.image
-        if args.tags is not None: template['tags'] = args.tags.split(',')
-        template['date'] = date_str
-        json.dump(template, open(target_fpath, 'w'))
-    else:
-        shutil.copyfile('__template__.json', target_fpath)
-        ## content
-        os.system(f'vim {target_fpath}')
-        content = json.load(open(target_fpath))
-        template['date'] = date_str
-        assert (len(content['text']) > 0)
-
-    try:
-        assert len(template['text']) > 0
-        # # post to mas.to, update 'image' and 'interact' fields
-        post_content = template['text'] + (f' {template["link"]} ' if len(template["link"]) > 0 else ' ') + ' '.join(f'#{t}' for t in template['tags'])
-        if len(template['image']) > 0:
-            assert os.path.exists(template['image'])
-            media = mastodon.media_post(template['image'], description="")
-            ret = mastodon.status_post(post_content, media_ids=media)
-            template['image'] = media['preview_url']
+        if args.direct:
+            template = json.load(open('__template__.json'))
+            template['text'] = args.text
+            if args.link is not None: template['link'] = args.link
+            if args.image is not None: template['image'] = args.image
+            if args.tags is not None: template['tags'] = args.tags.split(',')
+            template['date'] = date_str
+            json.dump(template, open(target_fpath, 'w'))
         else:
-            ret = mastodon.status_post(post_content)
-        template['interact'] = ret['url']
-        json.dump(template, open(target_fpath, 'w'))
-    except Exception as e:
-        print (e)
-        os.remove(target_fpath)
-        print ('Abort')
-        sys.exit(0)
+            shutil.copyfile('__template__.json', target_fpath)
+            ## content
+            os.system(f'vim {target_fpath}')
+            content = json.load(open(target_fpath))
+            template['date'] = date_str
+            assert (len(content['text']) > 0)
 
-    files2add.append(target_fpath)
+        try:
+            assert len(template['text']) > 0
+            # # post to mas.to, update 'image' and 'interact' fields
+            post_content = template['text'] + (f' {template["link"]} ' if len(template["link"]) > 0 else ' ') + ' '.join(f'#{t}' for t in template['tags'])
+            if len(template['image']) > 0:
+                assert os.path.exists(template['image'])
+                media = mastodon.media_post(template['image'], description="")
+                ret = mastodon.status_post(post_content, media_ids=media)
+                template['image'] = media['preview_url']
+            else:
+                ret = mastodon.status_post(post_content)
+            template['interact'] = ret['url']
+            json.dump(template, open(target_fpath, 'w'))
+        except Exception as e:
+            print (e)
+            os.remove(target_fpath)
+            print ('Abort')
+            sys.exit(0)
+
+        files2add.append(target_fpath)
 
     def msg2html(fpath):
         return open(fpath).read() + ","
@@ -93,7 +95,8 @@ if __name__ == '__main__':
     files2add.append(os.path.join(args.site_dir,'sitemap.txt'))
     print (f'files2add = {files2add}')
 
-    for f in files2add:
-        os.system(f'git add {f}')
-    os.system(f'git commit -m "add post"')
-    os.system(f'git push')
+    if not args.dry:
+        for f in files2add:
+            os.system(f'git add {f}')
+        os.system(f'git commit -m "add post"')
+        os.system(f'git push')
