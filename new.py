@@ -2,6 +2,12 @@ import os, json, sys, argparse, shutil, time
 import glob
 from datetime import datetime
 import minify_html
+from mastodon import Mastodon
+
+mastodon = Mastodon(
+    access_token = json.load(open('token.json'))['token'],
+    api_base_url = 'https://mas.to/'
+)
 
 if __name__ == '__main__':
 
@@ -41,7 +47,24 @@ if __name__ == '__main__':
         template['date'] = date_str
         assert (len(content['text']) > 0)
 
-    # post to mas.to, update 'image' and 'interact' fields
+    try:
+        assert len(template['text']) > 0
+        # # post to mas.to, update 'image' and 'interact' fields
+        post_content = template['text'] + (f' {template["link"]} ' if len(template["link"]) > 0 else ' ') + ' '.join(f'#{t}' for t in template['tags'])
+        if len(template['image']) > 0:
+            assert os.path.exists(template['image'])
+            media = mastodon.media_post(template['image'], description="")
+            ret = mastodon.status_post(post_content, media_ids=media)
+            template['image'] = media['preview_url']
+        else:
+            ret = mastodon.status_post(post_content)
+        template['interact'] = ret['url']
+        json.dump(template, open(target_fpath, 'w'))
+    except Exception as e:
+        print (e)
+        os.remove(target_fpath)
+        print ('Abort')
+        sys.exit(0)
 
     files2add.append(target_fpath)
 
@@ -70,7 +93,7 @@ if __name__ == '__main__':
     files2add.append(os.path.join(args.site_dir,'sitemap.txt'))
     print (f'files2add = {files2add}')
 
-    # for f in files2add:
-        # os.system(f'git add {f}')
-    # os.system(f'git commit -m "add post"')
-    # os.system(f'git push')
+    for f in files2add:
+        os.system(f'git add {f}')
+    os.system(f'git commit -m "add post"')
+    os.system(f'git push')
