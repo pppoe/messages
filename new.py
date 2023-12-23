@@ -1,5 +1,5 @@
 import os, json, sys, argparse, shutil, time
-import glob, requests, tempfile
+import glob, requests, tempfile, time
 from datetime import datetime
 import minify_html
 from mastodon import Mastodon
@@ -72,6 +72,7 @@ if __name__ == '__main__':
             if len(template['image']) > 0:
                 assert os.path.exists(template['image'])
                 media = mastodon.media_post(template['image'], description="")
+                time.sleep(5)
                 ret = mastodon.status_post(post_content, media_ids=media)
                 template['image'] = media['preview_url']
                 if temp_file is not None and os.path.exists(temp_file): os.remove(temp_file)
