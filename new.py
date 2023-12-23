@@ -16,7 +16,6 @@ if __name__ == '__main__':
     parser.add_argument('--text', default=None, required=False)
     parser.add_argument('--link', default=None, required=False)
     parser.add_argument('--image', default=None, required=False)
-    parser.add_argument('--media', default=None, required=False)
     parser.add_argument('--tags', default=None, required=False, help="tag,tag,tag")
     parser.add_argument('--dry', default=False, required=False, action='store_true', help='rebuild locally without pushing')
     parser.add_argument('--site_dir', default="./docs/")
@@ -38,19 +37,18 @@ if __name__ == '__main__':
         fname = f'{uuid}_{date_str}.json'
         target_fpath = os.path.join(messages_dir, fname)
 
-        if args.media is not None:
-            assert args.image is None and args.link is None
-            if os.path.exists(args.media): # assuming its an image file
-                args.image = args.media
-            elif args.media.startswith('http'):
-                ext = args.media.lower().split('.')[-1]
-                if ext in ['png','jpeg','jpg','gif']:
-                    temp_file = tempfile.mktemp() + f'.{ext}'
-                    with open(temp_file, 'wb') as f:
-                        f.write(requests.get(args.media).content)
-                    args.image = temp_file
-                else:
-                    args.link = args.media
+        if args.image is not None:
+            if os.path.exists(args.image): # assuming its an image file
+                pass
+            elif args.image.startswith('http'):
+                ext = args.image.lower().split('.')[-1]
+                temp_file = tempfile.mktemp() + f'.{ext}'
+                with open(temp_file, 'wb') as f:
+                    f.write(requests.get(args.image).content)
+                args.image = temp_file
+            else:
+                print (f'Cannot find image {args.image}')
+                assert False
 
         if args.direct:
             template = json.load(open('__template__.json'))
