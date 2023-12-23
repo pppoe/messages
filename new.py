@@ -1,5 +1,5 @@
 import os, json, sys, argparse, shutil, time
-import glob
+import glob, requests, tempfile
 from datetime import datetime
 import minify_html
 from mastodon import Mastodon
@@ -16,14 +16,19 @@ if __name__ == '__main__':
     parser.add_argument('--text', default=None, required=False)
     parser.add_argument('--link', default=None, required=False)
     parser.add_argument('--image', default=None, required=False)
+    parser.add_argument('--media', default=None, required=False)
     parser.add_argument('--tags', default=None, required=False, help="tag,tag,tag")
     parser.add_argument('--dry', default=False, required=False, action='store_true', help='rebuild locally without pushing')
     parser.add_argument('--site_dir', default="./docs/")
     args = parser.parse_args()
 
+    print (args)
+
     messages_dir = f'messages/'
 
     if args.direct: assert (args.text is not None)
+
+    tmp_file = None
 
     files2add = []
 
@@ -32,6 +37,20 @@ if __name__ == '__main__':
         date_str = datetime.now().strftime('%Y-%m-%d')
         fname = f'{uuid}_{date_str}.json'
         target_fpath = os.path.join(messages_dir, fname)
+
+        if args.media is not None:
+            assert args.image is None and args.link is None
+            if os.path.exists(args.media): # assuming its an image file
+                args.image = args.media
+            elif args.media.startswith('http'):
+                ext = args.media.lower().split('.')[-1]
+                if ext in ['png','jpeg','jpg','gif']:
+                    temp_file = tempfile.mktemp() + f'.{ext}'
+                    with open(temp_file, 'wb') as f:
+                        f.write(requests.get(args.media).content)
+                    args.image = temp_file
+                else:
+                    args.link = args.media
 
         if args.direct:
             template = json.load(open('__template__.json'))
@@ -43,11 +62,10 @@ if __name__ == '__main__':
             json.dump(template, open(target_fpath, 'w'))
         else:
             shutil.copyfile('__template__.json', target_fpath)
-            ## content
             os.system(f'vim {target_fpath}')
-            content = json.load(open(target_fpath))
+            template = json.load(open(target_fpath))
             template['date'] = date_str
-            assert (len(content['text']) > 0)
+            assert (len(template['text']) > 0)
 
         try:
             assert len(template['text']) > 0
@@ -58,12 +76,14 @@ if __name__ == '__main__':
                 media = mastodon.media_post(template['image'], description="")
                 ret = mastodon.status_post(post_content, media_ids=media)
                 template['image'] = media['preview_url']
+                if temp_file is not None and os.path.exists(temp_file): os.remove(temp_file)
             else:
                 ret = mastodon.status_post(post_content)
             template['interact'] = ret['url']
             json.dump(template, open(target_fpath, 'w'))
         except Exception as e:
             print (e)
+            if temp_file is not None and os.path.exists(temp_file): os.remove(temp_file)
             os.remove(target_fpath)
             print ('Abort')
             sys.exit(0)
