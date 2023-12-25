@@ -68,7 +68,7 @@ if __name__ == '__main__':
         try:
             assert len(template['text']) > 0
             # # post to mas.to, update 'image' and 'interact' fields
-            post_content = template['text'] + (f' {template["link"]} ' if len(template["link"]) > 0 else ' ') + ' '.join(f'#{t}' for t in template['tags']) + f' (via {https://message.haoxiang.org})'
+            post_content = template['text'] + (f' {template["link"]} ' if len(template["link"]) > 0 else ' ') + ' '.join(f'#{t}' for t in template['tags']) + f' (via https://message.haoxiang.org)'
             if len(template['image']) > 0:
                 assert os.path.exists(template['image'])
                 media = mastodon.media_post(template['image'], description="")
