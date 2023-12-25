@@ -2,6 +2,10 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
         <loc>https://message.haoxiang.org/</loc>
-        <lastmod>2023-12-24T06:24:38.589Z</lastmod>
+        <lastmod>2023-12-25T00:11:22.376Z</lastmod>
+    </url>
+    <url>
+        <loc>https://message.haoxiang.org/page2</loc>
+        <lastmod>2023-12-25T00:11:22.376Z</lastmod>
     </url>
 </urlset>
