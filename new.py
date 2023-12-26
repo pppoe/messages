@@ -92,7 +92,7 @@ if __name__ == '__main__':
     def msg2html(fpath):
         return open(fpath).read() + ","
 
-    all_messages = sorted(glob.glob(os.path.join(messages_dir, '*.json')))
+    all_messages = sorted(glob.glob(os.path.join(messages_dir, '*.json')))[::-1]
     page_size = 8
     for i in range(0, len(all_messages), page_size):
         sel = all_messages[i:i+page_size]
