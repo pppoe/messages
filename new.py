@@ -50,6 +50,13 @@ if __name__ == '__main__':
                 print (f'Cannot find image {args.image}')
                 assert False
 
+        if args.tags is not None and len(args.tags) == 0:
+            args.tags = None
+
+        if args.tags is None and "TAGS:" in args.text:
+            args.tags = args.text.split("TAGS:")[-1]
+            args.text = args.text.split("TAGS:")[0]
+
         if args.direct:
             template = json.load(open('__template__.json'))
             template['text'] = args.text
