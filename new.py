@@ -36,6 +36,7 @@ if __name__ == '__main__':
         date_str = datetime.now().strftime('%Y-%m-%d')
         fname = f'{uuid}_{date_str}.json'
         target_fpath = os.path.join(messages_dir, fname)
+        temp_file = None
 
         if args.image is not None:
             if os.path.exists(args.image): # assuming its an image file
