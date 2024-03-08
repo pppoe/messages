@@ -41,12 +41,12 @@ if __name__ == '__main__':
         if args.image is not None:
             if os.path.exists(args.image): # assuming its an image file
                 pass
-            # elif args.image.startswith('http'):
-                # ext = args.image.lower().split('.')[-1]
-                # temp_file = tempfile.mktemp() + f'.{ext}'
-                # with open(temp_file, 'wb') as f:
-                    # f.write(requests.get(args.image).content)
-                # args.image = temp_file
+            elif args.image.startswith('http'):
+                ext = args.image.lower().split('.')[-1]
+                temp_file = tempfile.mktemp() + f'.{ext}'
+                with open(temp_file, 'wb') as f:
+                    f.write(requests.get(args.image).content)
+                args.image = temp_file
             else:
                 print (f'Cannot find image {args.image}')
                 assert False
@@ -78,13 +78,13 @@ if __name__ == '__main__':
             # # post to mas.to, update 'image' and 'interact' fields
             post_content = template['text'] + (f' {template["link"]} ' if len(template["link"]) > 0 else ' ') + ' '.join(f'#{t}' for t in template['tags']) + f' (via https://message.haoxiang.org)'
             if len(template['image']) > 0:
-                if not template['image'].startswith('http'):
-                    assert os.path.exists(template['image'])
-                    media = mastodon.media_post(template['image'], description="")
-                    time.sleep(5)
-                    ret = mastodon.status_post(post_content, media_ids=media)
-                    template['image'] = media['preview_url']
-                    if temp_file is not None and os.path.exists(temp_file): os.remove(temp_file)
+                # if not template['image'].startswith('http'):
+                assert os.path.exists(template['image'])
+                media = mastodon.media_post(template['image'], description="")
+                time.sleep(5)
+                ret = mastodon.status_post(post_content, media_ids=media)
+                template['image'] = media['url']
+                if temp_file is not None and os.path.exists(temp_file): os.remove(temp_file)
             else:
                 ret = mastodon.status_post(post_content)
             template['interact'] = ret['url']
