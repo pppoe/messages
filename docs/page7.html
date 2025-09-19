@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-V34CNNDP8V"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-V34CNNDP8V');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Haoxiang's Messages</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+    * {
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 100vh;
+      line-height: 1.6;
+      color: #333;
+    }
+    
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      color: #333;
+      padding: 15px 20px;
+      text-align: center;
+      z-index: 1000;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    header div {
+      display: block;
+      margin: 10px auto;
+    }
+
+    #home-icon {
+      display: inline-flex;
+      align-items: center;
+      float: left;
+      margin: 5px;
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      padding: 8px 16px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      background: rgba(0, 0, 0, 0.05);
+    }
+    
+    #home-icon:hover {
+      background: rgba(0, 0, 0, 0.1);
+      transform: translateY(-1px);
+    }
+
+    main {
+      margin-top: 80px;
+      padding: 20px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .post {
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      border-radius: 16px;
+      margin-bottom: 20px;
+      padding: 24px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      max-height: none;
+      overflow: visible;
+    }
+    
+    .post:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    }
+    
+    .post img {
+      display: block;
+      margin: 16px 0;
+      max-width: 100%;
+      max-height: 300px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      object-fit: cover;
+    }
+    
+    .post .clear {
+      clear: both;
+      display: block;
+    }
+    
+    .post a {
+      text-decoration: none;
+      color: #2563eb;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+    
+    .post a:hover {
+      color: #1d4ed8;
+      text-decoration: underline;
+    }
+    
+    .post a:visited {
+      color: #7c3aed;
+    }
+    
+    .post div.comment {
+      text-align: right;
+      margin-top: 16px;
+    }
+    
+    .post div.comment a {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+    
+    .post div.comment a:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+      text-decoration: none;
+    }
+    
+    .post p {
+      margin: 0.8em 0;
+      padding: 0;
+      line-height: 1.7;
+    }
+    
+    .post .date {
+      margin: 0 0 12px 0;
+      padding: 0;
+      font-size: 0.875rem;
+      color: #6b7280;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .post .link {
+      margin: 8px 0;
+      padding: 0;
+      word-break: break-all;
+    }
+    
+    .post .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    
+    .post .tag {
+      background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+      color: #374151;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+    
+    @media screen and (max-width: 768px) {
+      body {
+        max-width: 100%;
+        padding: 0 10px;
+      }
+      
+      main {
+        padding: 15px;
+        margin-top: 70px;
+      }
+      
+      .post {
+        padding: 20px;
+        margin-bottom: 15px;
+      }
+      
+      #home-icon {
+        float: none;
+        display: inline-flex;
+        text-align: center;
+        margin-bottom: 10px;
+      }
+      
+      header {
+        padding: 10px 15px;
+      }
+    }
+    
+    footer {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      text-align: center;
+      z-index: 1000;
+      padding: 30px 0;
+      margin-top: 40px;
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    #next-btn,
+    #prev-btn {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 12px 24px;
+      margin: 0 15px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    #next-btn:hover,
+    #prev-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    }
+
+    .links {
+      padding: 30px 20px;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.8);
+      margin-top: 20px;
+    }
+    
+    .links a {
+      text-decoration: none;
+      color: #2563eb;
+      font-weight: 500;
+      padding: 8px 16px;
+      margin: 0 8px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      background: rgba(37, 99, 235, 0.1);
+    }
+    
+    .links a:hover {
+      color: #1d4ed8;
+      background: rgba(37, 99, 235, 0.2);
+      transform: translateY(-1px);
+    }
+    
+    .links a:visited {
+      color: #7c3aed;
+    }
+
+    #page-index {
+      font-size: 0.875rem;
+      color: #6b7280;
+      font-weight: 500;
+      margin: 0 20px;
+    }
+    
+    .ads {
+      width: 100%;
+      margin-top: 20px;
+    }
+    
+    /* Loading animation */
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: #6b7280;
+    }
+    
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: #6b7280;
+    }
+    
+    .empty-state h3 {
+      margin-bottom: 16px;
+      color: #374151;
+    }
+
+    </style>
+  </head>
+  <body>
+
+    <header>
+      <a id="home-icon" href="https://haoxiang.org/">
+        <i class="fas fa-home"></i>
+        <span>Home</span>
+      </a>
+    </header>
+
+    <main id="content">
+      <!-- Posts will be dynamically added here using JavaScript -->
+    </main>
+
+    <footer>
+      <a id="prev-btn" href="#">
+        <i class="fas fa-chevron-left"></i>
+        <span>Previous</span>
+      </a>
+      <span id="page-index">Page</span>
+      <a id="next-btn" href="#">
+        <span>Next</span>
+        <i class="fas fa-chevron-right"></i>
+      </a>
+    </footer>
+
+    <section class="links">
+      <p>
+        <a href="https://mas.to/invite/snKi3SxQ" target="_blank">
+          <i class="fas fa-plus-circle"></i>
+          Join Mas.to
+        </a>
+        <a href="https://mas.to/@pppoe.rss" target="_blank">
+          <i class="fas fa-rss"></i>
+          RSS Feed
+        </a>
+      </p>
+    </section>
+
+    <section> <!-- footer ads -->
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6706191209941700"
+                      crossorigin="anonymous"></script>
+        <!-- ToolsListFooter -->
+        <ins class="adsbygoogle ads"
+             style="display:block"
+             data-ad-client="ca-pub-6706191209941700"
+             data-ad-slot="5967976114"
+             data-ad-format="rectangle"
+             data-full-width-responsive="true"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </section>
+
+    <script>
+      // Dummy data for posts
+      const posts = [
+{"text": "This is so true. If you think about today's LLM, it is another layer of abstraction in a broader sense and it can be leaky in its probabilistic nature. Should we use it to generate code to promise something like GPT agent, it can take considerable efforts to debug when it leaks and being aware of this would demand layers of expertises.", "image": "", "link": "https://www.joelonsoftware.com/2002/11/11/the-law-of-leaky-abstractions/", "tags": ["Programming", "LLM"], "date": "2024-03-08", "interact": "https://mas.to/@pppoe/112060563027829581"},
+{"text": "Evolving from Rule-based Classifier: Machine Learning Powered Auto Remediation in Netflix Data Platform | by Netflix Technology Blog | Mar, 2024 | Netflix TechBlog - It is common in practice to have a rule based solution deployed before any ML based solutions getting in. Nice way to add the ML solution on top of the existing one. ", "image": "", "link": "https://netflixtechblog.com/evolving-from-rule-based-classifier-machine-learning-powered-auto-remediation-in-netflix-data-039d5efd115b", "tags": [], "date": "2024-03-05", "interact": "https://mas.to/@pppoe/112043946651532542"},
+{"text": "[2402.18485v1] FinAgent: A Multimodal Foundation Agent for Financial Trading: Tool-Augmented, Diversified, and Generalist - Good to know there are datasets to benchmark trading methods in academia \u2026 and this works uses GPT4V", "image": "", "link": "https://arxiv.org/abs/2402.18485v1", "tags": [], "date": "2024-02-29", "interact": "https://mas.to/@pppoe/112018487644545101"},
+{"text": "RoboEXP: Action-Conditioned Scene Graph via Interactive Exploration for Robotic Manipulation - A fun Robot System combing Visual Language Model (GPT4V), vision models (SAM, Grounding-DINO), and sort of Knowledge Graph! The robot is quite busy from the video LOL. ", "image": "https://media.mas.to/media_attachments/files/112/001/502/067/751/181/original/fc2ba29c3bd20dd6.jpg", "link": "https://arxiv.org/html/2402.15487v1", "tags": [" Robotics", "VisualLanguageModel", "ComputerVision"], "date": "2024-02-26", "interact": "https://mas.to/@pppoe/112001502435278469"},
+{"text": "\ud83e\uddde Genie: Generative Interactive Environments - Nice framework for a world model. One problem may be the controllable actions learned implicitly do not map well to explainable actions. The feedback latency should be minimized to some extent for make interaction meaningful.  ", "image": "https://media.mas.to/media_attachments/files/112/001/425/729/397/249/original/85f8b88279a00f2d.png", "link": "https://sites.google.com/view/genie-2024/home", "tags": ["WorldModel"], "date": "2024-02-26", "interact": "https://mas.to/@pppoe/112001426113357606"},
+{"text": "Interactive chart from Pandas dataFrame with support for exporting to HTML file", "image": "https://media.mas.to/media_attachments/files/111/994/730/249/758/200/original/8e720f4cdefb0742.jpg", "link": "https://altair-viz.github.io/getting_started/overview.html", "tags": ["Python", "Tool"], "date": "2024-02-25", "interact": "https://mas.to/@pppoe/111994730657451910"},
+{"text": "A good way to generate images from scripts without UI using FOOCUS, this project provides more intuitive endpoints", "image": "", "link": "https://github.com/mrhan1993/Fooocus-API", "tags": [], "date": "2024-02-23", "interact": "https://mas.to/@pppoe/111985040536860500"},
+{"text": "Apple Vision Pro Review: A Heavy Portable Cinema & Monitor - Another densely packed good review on AVP from uploadVR", "image": "", "link": "https://www.uploadvr.com/apple-vision-pro-review/", "tags": [], "date": "2024-02-19", "interact": "https://mas.to/@pppoe/111959189182062038"},
+      ];
+      const content = document.getElementById('content');
+      
+      function createPostElement(post) {
+        const postElement = document.createElement('div');
+        postElement.className = 'post';
+        
+        // Date
+        const dateElem = document.createElement('p');
+        dateElem.setAttribute("class", "date");
+        dateElem.textContent = new Date(post.date).toLocaleDateString('en-US', {
+          weekday: 'long',
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        });
+        postElement.appendChild(dateElem);
+        
+        // Text content
+        const textParagraph = document.createElement('p');
+        textParagraph.textContent = post.text + " ";
+        if (post.link) {
+          const linkElement = document.createElement('a');
+          linkElement.setAttribute("class", "link");
+          linkElement.href = post.link;
+          linkElement.textContent = post.link.length > 50 ? post.link.substring(0, 50) + '...' : post.link;
+          linkElement.target = "_blank";
+          textParagraph.appendChild(linkElement);
+        }
+        postElement.appendChild(textParagraph);
+        
+        // Image
+        if (post.image && post.image.trim() !== '') {
+          const imageElement = document.createElement('img');
+          imageElement.src = post.image;
+          imageElement.alt = 'Post image';
+          imageElement.loading = 'lazy';
+          postElement.appendChild(imageElement);
+        }
+        
+        // Tags
+        if (post.tags && post.tags.length > 0) {
+          const tagsContainer = document.createElement('div');
+          tagsContainer.setAttribute("class", "tags");
+          post.tags.forEach(tag => {
+            const tagElement = document.createElement('span');
+            tagElement.setAttribute("class", "tag");
+            tagElement.textContent = '#' + tag;
+            tagsContainer.appendChild(tagElement);
+          });
+          postElement.appendChild(tagsContainer);
+        }
+        
+        // Comment link
+        if (post.interact) {
+          const linkElementContainer = document.createElement('div');
+          linkElementContainer.setAttribute("class", "comment");
+          const linkElement = document.createElement('a');
+          linkElement.setAttribute("class", "comment");
+          linkElement.href = post.interact;
+          linkElement.textContent = "Comment";
+          linkElement.target = "_blank";
+          linkElementContainer.appendChild(linkElement);
+          postElement.appendChild(linkElementContainer);
+        }
+        
+        const clearElement = document.createElement('div');
+        clearElement.setAttribute("class", "clear");
+        postElement.appendChild(clearElement);
+        
+        return postElement;
+      }
+      
+      function loadPosts() {
+        if (posts.length === 0) {
+          const emptyState = document.createElement('div');
+          emptyState.className = 'empty-state';
+          emptyState.innerHTML = `
+            <h3>No posts yet</h3>
+            <p>Check back soon for new content!</p>
+          `;
+          content.appendChild(emptyState);
+          return;
+        }
+        
+        posts.forEach((post) => {
+          if (post.text && post.text.trim() !== '') {
+            const postElement = createPostElement(post);
+            content.appendChild(postElement);
+          }
+        });
+      }
+      
+      // Load initial posts
+let page = 7; let pageCount = 12;      loadPosts();
+      
+      // Navigation logic
+      if (page > 1) {
+        let url = "/page" + (page - 1) + ".html";
+        if (url == "/page1.html") {
+          url = "/";
+        }
+        document.getElementById('prev-btn').href = url;
+      } else {
+        document.getElementById('prev-btn').style.display = 'none';
+      }
+      
+      if (page < pageCount) {
+        let url = "/page" + (page + 1) + ".html";
+        if (url == "/page1.html") {
+          url = "/";
+        }
+        document.getElementById('next-btn').href = url;
+      } else {
+        document.getElementById('next-btn').style.display = 'none';
+      }
+      
+      if (pageCount > 1) {
+        document.getElementById('page-index').innerHTML = `Page ${page} of ${pageCount}`;
+      } else {
+        document.getElementById('page-index').style.display = 'none';
+      }
+    </script>
+
+  </body>
+</html>
+
